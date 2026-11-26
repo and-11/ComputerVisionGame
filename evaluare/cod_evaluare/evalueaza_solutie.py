@@ -87,11 +87,10 @@ def compare_annotations_table_scores(filename_table_score_predicted, filename_ta
 print("EVALUATION ON TEST SET")
 
 #change this on your machine pointing to your results (txt files)
-predictions_path_root = "/Users/bogdan/Dropbox/CAVA-Ingenious/CAVA-2026-TEMA1/evaluare/fisiere_solutie/331_Alexe_Bogdan/"
+predictions_path_root = "/home/cristian/and_/facultate/s5/cava/ComputerVisionGame/test_result"
 
 #change this on your machine to point to the ground-truth test
-gt_path_root = "/Users/bogdan/Dropbox/CAVA-Ingenious/CAVA-2026-TEMA1/evaluare/fisiere_solutie/fake-test-ground-truth/"
-
+gt_path_root = "/home/cristian/and_/facultate/s5/cava/ComputerVisionGame/antrenare/table-joc"
 
 #change this to 1 if you want to print results at each move
 verbose = 0

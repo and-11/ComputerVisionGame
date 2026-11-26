@@ -149,57 +149,49 @@ def write_move_file(output_path, move, score=0):
 
 
 
-
-
-def run_game(directory, output_directory, scoreboard_map, mapping_file=None):
+def run_game(directory, output_directory, scoreboard_map):
     os.makedirs(output_directory, exist_ok=True)
 
-    image_files = sorted(
-        f for f in os.listdir(directory) if f.lower().endswith(".jpg")
+    all_images = sorted(
+        f for f in os.listdir(directory) if f.lower().endswith(".jpg") and "_" in f
+    )
+    games = sorted(
+        {f.split("_")[0] for f in all_images},
+        key=lambda g: int(g) if g.isdigit() else g,
     )
 
-    prev_board = create_initial_board()
-    player_scores = [[0] * 6, [0] * 6]
-    mapping_lines = []
+    for game in games:
+        game_files = [f for f in all_images if f.startswith(f"{game}_")]
+        prev_board = create_initial_board()
+        player_scores = [[0] * 6, [0] * 6]
+        mapping_lines = []
 
-    for step, filename in enumerate(image_files, start=1):
-        curr_board = read_board_from_image(os.path.join(directory, filename))
+        for step, filename in enumerate(game_files, start=1):
+            curr_board = read_board_from_image(os.path.join(directory, filename))
+            move = get_move(prev_board, curr_board)
+            points, score_str = calculate_score(prev_board, move)
 
-        move = get_move(prev_board, curr_board)
-        points, score_str = calculate_score(prev_board, move)
+            active_player = (step - 1) % 2
+            for i, code in enumerate(COLOR_ORDER):
+                player_scores[active_player][i] = min(
+                    18, player_scores[active_player][i] + points[code]
+                )
 
-        active_player = (step - 1) % 2
-        for i, code in enumerate(COLOR_ORDER):
-            player_scores[active_player][i] = min(18, player_scores[active_player][i] + points[code])
+            matched_sb = scoreboard_map.get(tuple(player_scores[active_player]))
+            mapping_lines.append(f"{filename} {matched_sb}")
 
-        matched_sb = scoreboard_map.get(tuple(player_scores[active_player]))
-        mapping_lines.append(f"{filename} {matched_sb}")
+            txt_name = os.path.splitext(filename)[0] + ".txt"
+            write_move_file(os.path.join(output_directory, txt_name), move, score_str)
 
-        txt_name = os.path.splitext(filename)[0] + ".txt"
-        write_move_file(os.path.join(output_directory, txt_name), move, score_str)
+            print(f"{filename}: {score_str} | {matched_sb}")
+            prev_board = curr_board
 
-        print(f"{filename}: {player_scores[active_player]} -> {matched_sb}")
-        prev_board = curr_board
-
-    content = "\n".join(mapping_lines) + "\n"
-
-    with open(os.path.join(output_directory, "mapare_table_scor.txt"), "w") as f:
-        f.write(content)
-
-    if mapping_file:
-        mapping_dir = os.path.dirname(mapping_file)
-        if mapping_dir:
-            os.makedirs(mapping_dir, exist_ok=True)
-        with open(mapping_file, "w") as f:
-            f.write(content)
-
-
-
-
-
+        mapping_path = os.path.join(output_directory, f"{game}_mapare_table_scor.txt")
+        with open(mapping_path, "w") as f:
+            f.write("\n".join(mapping_lines) + "\n")
 
 
 
 if __name__ == "__main__":
-    scoreboard_map = map_scoreboards("task/antrenare/table-scor")
-    run_game("test_game", "test_results", scoreboard_map)
+    scoreboard_map = map_scoreboards("antrenare/table-scor")
+    run_game("antrenare/table-joc", "test_results", scoreboard_map)

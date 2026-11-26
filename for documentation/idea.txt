@@ -17,6 +17,16 @@ sas rotesc toate pozele ppsibile
 
 
 
+gemini 
+    for debug / scrierea unor bucati de cod scurte hydrogen
+
+
+Codul vostru ar trebui să includă un fişier README (vedeţi exemplul din materiale) cu
+următoarele informaţii: (i) librăriile folosite de voi şi necesare pentru rularea soluţiei voas-
+tre; (ii) indicaţii despre cum ar trebui rulat codul pentru fiecare task. Studenţii care nu
+ı̂ncarcă un fişier pdf cu descrierea soluţiei lor vor primi 0 puncte la partea de documentat, ie.
+
+
 remove the cracks in the board?
 
 
