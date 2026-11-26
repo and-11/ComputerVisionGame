@@ -27,7 +27,7 @@ def extract_cells(image, cx=CX, cy=CY, pitch=PITCH, scale=0.8):
 
 
 
-def classify_patch(patch, empty_v_thr=115):
+def classify_patch(patch):
     hsv = cv.cvtColor(patch, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
 
@@ -45,8 +45,6 @@ def classify_patch(patch, empty_v_thr=115):
 
     if strong_symbol.sum() < 30 or dark_frac < 0.2:
         return CellType.EMPTY
-
-
 
     # symbol = (v >= 100) & (s >= 65)
     # symbol = (v >= 100) & (s >= 55)
@@ -84,11 +82,6 @@ def visualize_patches(image, board_patches, cx=CX, cy=CY, pitch=PITCH, scale=0.8
             cv.rectangle(vis, (x - half, y - half), (x + half, y + half), color, thickness)
 
     return vis
-
-
-
-
-
 
 
 

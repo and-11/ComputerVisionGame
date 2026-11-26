@@ -24,7 +24,28 @@ HUE_RANGES = {
     CellType.PURPLE: [(130, 169)],
 }
 
-CORNER_CELLS = {(0, 0), (0, 5), (5, 0), (5, 10), (10, 0), (10, 5)}
+CORNER_CELLS = {
+    (0, 0):  CellType.RED,
+    (0, 5):  CellType.GREEN,
+    (5, 0):  CellType.PURPLE,
+    (5, 10): CellType.BLUE,
+    (10, 0): CellType.YELLOW,
+    (10, 5): CellType.ORANGE,
+}
+
+COLOR_TO_CODE = {
+    CellType.RED:    "R",
+    CellType.GREEN:  "G",
+    CellType.ORANGE: "O",
+    CellType.BLUE:   "B",
+    CellType.YELLOW: "Y",
+    CellType.PURPLE: "P",
+}
+
+
+COLOR_ORDER = ["R", "G", "O", "B", "Y", "P"]
+
+HEX_DIRECTIONS = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, -1), (-1, 1)]
 
 rows = [6, 7, 8, 9, 10, 11, 10, 9, 8, 7, 6]
 
