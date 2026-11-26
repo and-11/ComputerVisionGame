@@ -1,5 +1,6 @@
 import cv2 as cv
 import numpy as np
+import os
 
 from config import CORNER_CELLS, CX, CY, HUE_RANGES, PITCH, rows, CellType, CELL_COLORS
 from helpers import show_image, extrage_careu, get_cell_center
@@ -26,7 +27,7 @@ def extract_cells(image, cx=CX, cy=CY, pitch=PITCH, scale=0.8):
 
 
 
-def classify_patch(patch, empty_v_thr=135):
+def classify_patch(patch, empty_v_thr=115):
     hsv = cv.cvtColor(patch, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
 
@@ -34,8 +35,18 @@ def classify_patch(patch, empty_v_thr=135):
     # if dark_frac < dark_frac_thr:
     #     return CellType.EMPTY
 
-    if np.median(v) > empty_v_thr:
+    
+    # if np.median(v) > empty_v_thr:
+    #     return CellType.EMPTY
+
+
+    strong_symbol = (v >= 120) & (s >= 65)
+    dark_frac = float((v < 110).mean())
+
+    if strong_symbol.sum() < 30 or dark_frac < 0.2:
         return CellType.EMPTY
+
+
 
     # symbol = (v >= 100) & (s >= 65)
     # symbol = (v >= 100) & (s >= 55)
@@ -71,10 +82,6 @@ def visualize_patches(image, board_patches, cx=CX, cy=CY, pitch=PITCH, scale=0.8
             thickness = 1 if cell_type == CellType.EMPTY else 2
 
             cv.rectangle(vis, (x - half, y - half), (x + half, y + half), color, thickness)
-
-    for r, k in [(1, 0), (1, 5), (5, 10)]:
-        v = cv.cvtColor(patches[r][k], cv.COLOR_BGR2HSV)[:, :, 2]
-        print(f"({r}, {k}) dark_frac: {(v < 75).mean():.3f}")
 
     return vis
 
@@ -124,5 +131,20 @@ if __name__ == '__main__':
     # cv.imwrite('read.jpg', visualize_patches(img, patches))
     # cv.imwrite("considered_pixels.jpg", get_considered_pixels(img, patches))
 
+    folder = "pictures with boards" 
+    # output_folder = "cosidered_pixels"
+    output_folder = "test_results"
 
-    
+    os.makedirs(output_folder, exist_ok=True)
+
+    for filename in os.listdir(folder):
+        if not filename.lower().endswith(".jpg"):
+            continue
+
+        img = cv.imread(os.path.join(folder, filename))
+        img = extrage_careu(img)
+        patches = extract_cells(img)
+
+        cv.imwrite(f"{output_folder}/{filename}", visualize_patches(img, patches))
+        # show_image(filename, visualize_patches(img, patches))
+        # show_image(f"{filename} - considered", get_considered_pixels(img, patches))
