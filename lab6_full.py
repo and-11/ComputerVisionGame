@@ -175,8 +175,8 @@ for file in files:
     if file[-3:] == 'jpg':
         img = cv.imread('data/train/' + file)
         result = extrage_careu(img)
-        # _, thresh = cv.threshold(result, 100, 255, cv.THRESH_BINARY_INV)
-        # matrice = determina_configuratie_careu_ocifre(result, thresh, lines_horizontal, lines_vertical)
-        # print(matrice)
-        # show_image('img', img)
-        # show_image('asta e', result)
+        _, thresh = cv.threshold(result, 100, 255, cv.THRESH_BINARY_INV)
+        matrice = determina_configuratie_careu_ocifre(result, thresh, lines_horizontal, lines_vertical)
+        print(matrice)
+        show_image('img', img)
+        show_image('asta e', result)

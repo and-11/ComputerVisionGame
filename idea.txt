@@ -1,0 +1,38 @@
+
+
+
+initalia check for more RED than Blue
+
+
+-----------> but in case of light / shadow swithched to HSV
+
+initial am incercat template matching dar luam rezultate destul de slabe
+    -> extrageam automat imaginile de baza (nu era perfect dar am incercat mai multe imagini pana mi-a dat sabloane bune)
+    -> pasi urmatori ar fi fost sa imi largesc numarul de imagini de baza
+
+
+
+sas rotesc toate pozele ppsibile
+
+
+
+
+remove the cracks in the board?
+
+
+
+
+
+HSF pe template matching
+
+roatate the picture
+claify on shape make the background white and the shapes black
+
+
+
+
+
+
+
+
+#cv.imwrite("considered_pixels.jpg", get_considered_pixels(img, patches))
