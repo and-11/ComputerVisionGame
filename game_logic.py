@@ -4,6 +4,24 @@ import cv2 as cv
 from config import CORNER_CELLS, COLOR_TO_CODE, COLOR_ORDER, rows, CellType, HEX_DIRECTIONS
 from helpers import extrage_careu
 from board_reader import extract_cells, classify_patch
+from scoreboard_reader import get_scoreboard
+
+def map_scoreboards(scoreboard_dir):
+    scoreboard_map = {}
+
+    for filename in sorted(os.listdir(scoreboard_dir)):
+        if not filename.lower().endswith(".jpg"):
+            continue
+
+        img = cv.imread(os.path.join(scoreboard_dir, filename))
+        if img is None:
+            continue
+
+        warped = extrage_careu(img)
+        state = get_scoreboard(warped)
+        scoreboard_map[tuple(state)] = filename
+
+    return scoreboard_map
 
 
 def _build_position_maps():
@@ -127,25 +145,61 @@ def write_move_file(output_path, move, score=0):
     with open(output_path, "w") as f:
         f.write("\n".join(lines) + "\n")
 
-def run_game(directory, output_directory):
+
+
+
+
+
+
+def run_game(directory, output_directory, scoreboard_map, mapping_file=None):
+    os.makedirs(output_directory, exist_ok=True)
+
     image_files = sorted(
         f for f in os.listdir(directory) if f.lower().endswith(".jpg")
     )
 
     prev_board = create_initial_board()
+    player_scores = [[0] * 6, [0] * 6]
+    mapping_lines = []
 
     for step, filename in enumerate(image_files, start=1):
         curr_board = read_board_from_image(os.path.join(directory, filename))
 
         move = get_move(prev_board, curr_board)
-        score = calculate_score(prev_board, move)
+        points, score_str = calculate_score(prev_board, move)
+
+        active_player = (step - 1) % 2
+        for i, code in enumerate(COLOR_ORDER):
+            player_scores[active_player][i] = min(18, player_scores[active_player][i] + points[code])
+
+        matched_sb = scoreboard_map.get(tuple(player_scores[active_player]))
+        mapping_lines.append(f"{filename} {matched_sb}")
 
         txt_name = os.path.splitext(filename)[0] + ".txt"
-        write_move_file(os.path.join(output_directory, txt_name), move, score)
-        print(f"{filename}: {move} -> {score}")
+        write_move_file(os.path.join(output_directory, txt_name), move, score_str)
 
+        print(f"{filename}: {player_scores[active_player]} -> {matched_sb}")
         prev_board = curr_board
+
+    content = "\n".join(mapping_lines) + "\n"
+
+    with open(os.path.join(output_directory, "mapare_table_scor.txt"), "w") as f:
+        f.write(content)
+
+    if mapping_file:
+        mapping_dir = os.path.dirname(mapping_file)
+        if mapping_dir:
+            os.makedirs(mapping_dir, exist_ok=True)
+        with open(mapping_file, "w") as f:
+            f.write(content)
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
-    run_game("test_game", "test_results")
+    scoreboard_map = map_scoreboards("task/antrenare/table-scor")
+    run_game("test_game", "test_results", scoreboard_map)

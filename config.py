@@ -4,6 +4,10 @@ from enum import Enum
 IMAGE_SIZE = 810
 CX, CY, PITCH = IMAGE_SIZE / 2, IMAGE_SIZE / 2, 42.6
 
+SCORE_START_X = 110
+SCORE_START_Y = 25
+SCORE_WIDTH = 106
+SCORE_HEIGHT = 38
 
 class CellType(Enum):
     EMPTY = "empty"
