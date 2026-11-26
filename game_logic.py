@@ -134,8 +134,8 @@ def calculate_score(prev_board, move):
                     break
 
     parts = [f"{points[c]}{c}" for c in COLOR_ORDER if points[c] > 0]
-    return " ".join(parts) if parts else "0"
-
+    score_str = " ".join(parts) if parts else "0"
+    return points, score_str
 
 
 

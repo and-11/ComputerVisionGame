@@ -81,51 +81,43 @@ def get_scoreboard(
 
     for c, code in enumerate(COLOR_ORDER):
         expected_color = CODE_TO_CELL[code]
+        best_r = 18
+        best_pixels = -1
 
-        if expected_color == CellType.BLUE:
-            best_r = 18
-            best_pixels = -1
-
-            for r in range(19):
-                x1 = start_x + c * width
-                y1 = start_y + r * height
-                patch = image[y1 : y1 + height, x1 : x1 + width]
-
-                hsv = cv.cvtColor(patch, cv.COLOR_BGR2HSV)
-                s, v = hsv[:, :, 1], hsv[:, :, 2]
-                blue_pixels = int(((s > 100) & (v > 100)).sum())
-
-                if blue_pixels > best_pixels:
-                    best_pixels = blue_pixels
-                    best_r = r
-
-            x1 = start_x + c * width
-            y1 = start_y + best_r * height
-            cv.rectangle(vis, (x1, y1), (x1 + width, y1 + height), CELL_COLORS[expected_color], 3)
-            state.append(18 - best_r)
-            continue
-
-        detected_r = 18
         for r in range(19):
             x1 = start_x + c * width
             y1 = start_y + r * height
-            x2 = x1 + width
-            y2 = y1 + height
+            patch = image[y1 : y1 + height, x1 : x1 + width]
 
-            patch = image[y1:y2, x1:x2]
-            if classify_score_patch(patch) == expected_color:
-                cv.rectangle(vis, (x1, y1), (x2, y2), CELL_COLORS[expected_color], 3)
-                detected_r = r
+            hsv = cv.cvtColor(patch, cv.COLOR_BGR2HSV)
+            h, s, v = cv.split(hsv)
 
-        state.append(18 - detected_r)
+            if expected_color == CellType.BLUE:
+                mask = (s > 100) & (v > 100)
+            else:
+                hue_mask = np.zeros_like(h, dtype=bool)
+                for lo, hi in HUE_RANGES[expected_color]:
+                    hue_mask |= (h >= lo) & (h <= hi)
+                mask = hue_mask & (s > 80) & (v > 80)
+
+            pixels = int(mask.sum())
+            if pixels > best_pixels:
+                best_pixels = pixels
+                best_r = r
+
+        x1 = start_x + c * width
+        y1 = start_y + best_r * height
+        cv.rectangle(vis, (x1, y1), (x1 + width, y1 + height), CELL_COLORS[expected_color], 3)
+        state.append(18 - best_r)
 
     # show_image("Scoreboard", vis)
 
     return state
 
 
+
 if __name__ == "__main__":
-    img = cv.imread("scor.jpg")
+    img = cv.imread("faulty.jpg")
     warped = extrage_careu(img)
     vis = get_scoreboard(warped)
 

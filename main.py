@@ -1,20 +1,9 @@
-import cv2 as cv
-
-from generate import analyze_patch, extract_patches
-from helpers import extrage_careu
-
-
-
+from game_logic import map_scoreboards, run_game
 
 
 
 if __name__ == "__main__":
-
-    # img = cv.imread("exemplu.jpg")
-    # img = extrage_careu(img)
-
-    # board = read_board_state(img)
-    # print_board(board)
-
+    scoreboard_map = map_scoreboards("task/antrenare/table-scor")
+    run_game("test_game", "test_results", scoreboard_map)
 
     
