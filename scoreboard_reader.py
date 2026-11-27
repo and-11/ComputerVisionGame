@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 
+
 from config import (
     CELL_COLORS,
     HUE_RANGES,
@@ -16,15 +17,15 @@ from helpers import extrage_careu, show_image
 
 
 def draw_grid(image, start_x, start_y, width, height):
-    vis = image.copy()
+    img = image.copy()
     for r in range(19):
         for c in range(6):
             x1 = start_x + c * width
             y1 = start_y + r * height
             x2 = x1 + width
             y2 = y1 + height
-            cv.rectangle(vis, (x1, y1), (x2, y2), (0, 255, 0), 1)
-    return vis
+            cv.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 1)
+    return img
 
 def set_grid():
     img = cv.imread("scor.jpg")
@@ -76,7 +77,7 @@ def get_scoreboard(
     width=SCORE_WIDTH,
     height=SCORE_HEIGHT,
 ):
-    vis = image.copy()
+    img = image.copy()
     state = []
 
     for c, code in enumerate(COLOR_ORDER):
@@ -107,10 +108,10 @@ def get_scoreboard(
 
         x1 = start_x + c * width
         y1 = start_y + best_r * height
-        cv.rectangle(vis, (x1, y1), (x1 + width, y1 + height), CELL_COLORS[expected_color], 3)
+        cv.rectangle(img, (x1, y1), (x1 + width, y1 + height), CELL_COLORS[expected_color], 3)
         state.append(18 - best_r)
 
-    # show_image("Scoreboard", vis)
+    # show_image("Scoreboard", img)
 
     return state
 
@@ -118,7 +119,6 @@ def get_scoreboard(
 
 if __name__ == "__main__":
     img = cv.imread("faulty.jpg")
-    warped = extrage_careu(img)
-    vis = get_scoreboard(warped)
-
+    img = extrage_careu(img)
+   
 

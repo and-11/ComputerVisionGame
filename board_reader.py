@@ -70,7 +70,7 @@ def classify_patch(patch):
 
 def visualize_patches(image, board_patches, cx=CX, cy=CY, pitch=PITCH, scale=0.8):
     half = int(pitch * scale / 2)
-    vis = image.copy()
+    img = image.copy()
 
     for r, row_patches in enumerate(board_patches):
         for k, patch in enumerate(row_patches):
@@ -79,9 +79,9 @@ def visualize_patches(image, board_patches, cx=CX, cy=CY, pitch=PITCH, scale=0.8
             color = CELL_COLORS[cell_type]
             thickness = 1 if cell_type == CellType.EMPTY else 2
 
-            cv.rectangle(vis, (x - half, y - half), (x + half, y + half), color, thickness)
+            cv.rectangle(img, (x - half, y - half), (x + half, y + half), color, thickness)
 
-    return vis
+    return img
 
 
 
@@ -109,6 +109,7 @@ def get_considered_pixels(image, board_patches, cx=CX, cy=CY, pitch=PITCH, scale
             canvas[y - half : y + half, x - half : x + half][symbol] = patch[symbol]
 
     return canvas
+
 
 
 

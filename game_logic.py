@@ -17,8 +17,8 @@ def map_scoreboards(scoreboard_dir):
         if img is None:
             continue
 
-        warped = extrage_careu(img)
-        state = get_scoreboard(warped)
+        img = extrage_careu(img)
+        state = get_scoreboard(img)
         scoreboard_map[tuple(state)] = filename
 
     return scoreboard_map
@@ -193,6 +193,6 @@ def run_game(directory, output_directory, scoreboard_map):
 
 
 if __name__ == "__main__":
-    
+
     scoreboard_map = map_scoreboards("antrenare/table-scor")
     run_game("antrenare/table-joc", "test_results", scoreboard_map)

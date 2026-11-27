@@ -11,6 +11,8 @@ def show_image(title, image):
     cv.destroyAllWindows()
 
 
+
+
 # ca la laborator
 def extrage_careu(image):
     image_rgb = cv.cvtColor(image, cv.COLOR_BGR2RGB)
