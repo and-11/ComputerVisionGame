@@ -1,52 +1,76 @@
+gemini 
+    for debug / scrierea unor bucati de cod scurte hydrogen
 ai
     set grid function in scoreboard_reader
 
-
-
-
-
-initalia check for more RED than Blue
-
-
------------> but in case of light / shadow swithched to HSV
-
-initial am incercat template matching dar luam rezultate destul de slabe
-    -> extrageam automat imaginile de baza (nu era perfect dar am incercat mai multe imagini pana mi-a dat sabloane bune)
-    -> pasi urmatori ar fi fost sa imi largesc numarul de imagini de baza
-
-
-
-sas rotesc toate pozele ppsibile
-
-
-
-
-gemini 
-    for debug / scrierea unor bucati de cod scurte hydrogen
-
-
-Codul vostru ar trebui să includă un fişier README (vedeţi exemplul din materiale) cu
-următoarele informaţii: (i) librăriile folosite de voi şi necesare pentru rularea soluţiei voas-
-tre; (ii) indicaţii despre cum ar trebui rulat codul pentru fiecare task. Studenţii care nu
-ı̂ncarcă un fişier pdf cu descrierea soluţiei lor vor primi 0 puncte la partea de documentat, ie.
-
-
-remove the cracks in the board?
+    set_grid in scoreboard_reader
 
 
 
 
 
-HSF pe template matching
-
-roatate the picture
-claify on shape make the background white and the shapes black
+initial explica cum am extras tabla
 
 
+My first aproach was to use template matching, dar nu am avut rezultaste foarte bune (imi facusem o functie care extragea cateva celule si ma foloseam de ele) (paote as fia vut rezulate mai bune daca roteam imaginile si testam si niste varaiante)
+
+
+dupa asta am zis ca testez direct pt fiecare celula nuanta folosindu-ma de HSV.
+
+mi-am spart tabla in patrate
+(expica procesul dupa care am facut si ca mi-am luat ca referinta mijlocul tablei)
+
+(aici o sa punem o poza)
+
+
+apoi explica ce am facut, faza cu pixeli luati in cosiderare si asa mai departe
+
+aici sa povestim ca mi-am facut functie de afisat pixeli luati in considerare ca initial aveam reultate proaste si nu stiam dc.
+apoi am vazut ca luam prea mult din background si asa
+
+punem si doua poze aici una inainte si una dupa ce am dat tweak
+
+zi ca am experimentat destul de mult si pana am gasit setarile pt celula goala
+
+mai punem 3 poze aici
+
+
+explica  tu mai in detaliu ce functi ce si cum
+
+
+
+apo o sa punem o poza ) 
+
+
+
+
+
+apoi explica abordarea la citirea tabelei de scor  (am extras-o si pea ea si am fixat nite  pozitii)
+
+explica ca initial faceam fix ca la tabla si asta imi dadeda unori ca sunt mai multe celule de scor ocupate
+(cand un cub se ducea si in alta celula) si apoi abordarea finala
+in cazul pieselor albastere am mai avut de lucru putin ca imi detecta si fundalul
+
+punem trei poze aici
+
+
+
+
+apoi explica abordarea de la game
 
 
 
 
 
 
-#cv.imwrite("considered_pixels.jpg", get_considered_pixels(img, patches))
+
+
+
+
+
+
+
+
+
+/// completeaza cu ce nu am spus si ar trebui, explica in romana si uman
+/// da-mi cod gata de bagat in ovreaf
