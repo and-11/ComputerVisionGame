@@ -183,7 +183,7 @@ def run_game(directory, output_directory, scoreboard_map):
             txt_name = os.path.splitext(filename)[0] + ".txt"
             write_move_file(os.path.join(output_directory, txt_name), move, score_str)
 
-            print(f"{filename}: {score_str} | {matched_sb}")
+            # print(f"{filename}: {score_str} | {matched_sb}")
             prev_board = curr_board
 
         mapping_path = os.path.join(output_directory, f"{game}_mapare_table_scor.txt")
@@ -193,5 +193,6 @@ def run_game(directory, output_directory, scoreboard_map):
 
 
 if __name__ == "__main__":
+    
     scoreboard_map = map_scoreboards("antrenare/table-scor")
     run_game("antrenare/table-joc", "test_results", scoreboard_map)

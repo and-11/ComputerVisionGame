@@ -1,5 +1,27 @@
-from enum import Enum
+#   PATH-urile astea trebuie schimbate pentru a rula
 
+
+# unde se salveza rezultatele
+PATH_RESULT = "test_results" 
+
+# dir in care se afla tabelele de scor
+PATH_SCORE_BOARD = "antrenare/table-scor"
+
+# dir unde se afla jocurile
+PATH_GAMES = "antrenare/table-joc"
+
+
+
+#   ------   ------   ------   ------   ------   ------   ------   ------
+
+
+
+
+
+
+
+
+from enum import Enum
 
 IMAGE_SIZE = 810
 CX, CY, PITCH = IMAGE_SIZE / 2, IMAGE_SIZE / 2, 42.6
